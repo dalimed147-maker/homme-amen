@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CheckCircle } from 'lucide-react';
+import { CheckCircle, ChevronLeft, ChevronRight } from 'lucide-react';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
@@ -51,6 +51,12 @@ export default function AmenBioLanding() {
         { quantity: "3 علب", price: "79 دت" },
         { quantity: "4 علب", price: "97 دت" }
       ],
+      priceOptions: [
+        { quantity: 1, price: 36 },
+        { quantity: 2, price: 55 },
+        { quantity: 3, price: 79 },
+        { quantity: 4, price: 97 }
+      ],
       image: "/picture/kadagra.png",
       borderColor: "border-green-600",
       textColor: "text-green-600"
@@ -68,6 +74,16 @@ export default function AmenBioLanding() {
         "💚 بفضل تركيبته العشبية المتوازنة، يمنح إحساسًا تدريجيًا وطبيعيًا بدون مفعول حاد أو مفاجئ.",
         "👨 مناسب للرجال لدعم النشاط والأداء",
         "👩 ويمكن أن يساعد النساء على تحسين المزاج والرغبة والإحساس بالراحة"
+      ],
+      prices: [
+        { quantity: "علبة واحدة", price: "36 دت" },
+        { quantity: "علبتين", price: "55 دت" },
+        { quantity: "5 علب", price: "104 دت" }
+      ],
+      priceOptions: [
+        { quantity: 1, price: 36 },
+        { quantity: 2, price: 55 },
+        { quantity: 5, price: 104 }
       ],
       image: "/picture/macun.png",
       borderColor: "border-green-500",
@@ -122,14 +138,33 @@ export default function AmenBioLanding() {
     }
   ];
 
+  const SliderArrow = ({ className, style, onClick, direction }) => {
+    const isNext = direction === 'next';
+    const Icon = isNext ? ChevronRight : ChevronLeft;
+
+    return (
+      <button
+        type="button"
+        className={`${className || ''} before:!hidden !flex !items-center !justify-center !w-12 !h-12 md:!w-14 md:!h-14 !rounded-full !bg-green-700 !text-white !shadow-xl hover:!bg-green-800 focus:!outline-none focus:!ring-4 focus:!ring-green-200 !z-30 ${isNext ? '!right-2 md:!-right-7' : '!left-2 md:!-left-7'}`}
+        style={{ ...style }}
+        onClick={onClick}
+        aria-label={isNext ? 'Next product' : 'Previous product'}
+      >
+        <Icon className="w-7 h-7" strokeWidth={3} />
+      </button>
+    );
+  };
+
   const sliderSettings = {
     dots: true,
     infinite: true,
-    speed: 500,
+    speed: 1200,
     slidesToShow: 1,
     slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 3000,
+    autoplay: false,
+    arrows: true,
+    nextArrow: <SliderArrow direction="next" />,
+    prevArrow: <SliderArrow direction="prev" />,
     rtl: true
   };
 
@@ -141,7 +176,7 @@ export default function AmenBioLanding() {
     const CHAT_ID = '7800093317';
     
     // Get selected product info
-    const selectedProductData = formData.selectedProduct ? products[formData.selectedProduct] : null;
+    const selectedProductData = formData.selectedProduct !== null ? products[formData.selectedProduct] : null;
     const productName = selectedProductData ? selectedProductData.name : 'منتج غير محدد';
     
     // Format the message
@@ -154,7 +189,7 @@ export default function AmenBioLanding() {
 📍 العنوان: ${formData.address}
 🛍️ المنتج: ${productName}
 📦 الكمية: ${formData.quantity}
-💰 السعر الكلي: ${calculatePrice(formData.quantity)} دت
+💰 السعر الكلي: ${calculatePrice(formData.quantity, selectedProductData)} دت
     `.trim();
     
     try {
@@ -191,12 +226,42 @@ export default function AmenBioLanding() {
     }));
   };
 
-  const calculatePrice = (quantity) => {
-    if (quantity === 1) return 36;
-    if (quantity === 2) return 55;
-    if (quantity === 3) return 79;
-    if (quantity === 4) return 97;
-    return 36;
+  const defaultPriceOptions = [
+    { quantity: 1, price: 36 },
+    { quantity: 2, price: 55 },
+    { quantity: 3, price: 79 },
+    { quantity: 4, price: 97 }
+  ];
+
+  const getSelectedProduct = () => (
+    formData.selectedProduct !== null ? products[formData.selectedProduct] : null
+  );
+
+  const getPriceOptions = (product = getSelectedProduct()) => (
+    product?.priceOptions || defaultPriceOptions
+  );
+
+  const calculatePrice = (quantity, product = getSelectedProduct()) => {
+    const priceOptions = getPriceOptions(product);
+    return priceOptions.find(option => option.quantity === quantity)?.price || priceOptions[0].price;
+  };
+
+  const changeQuantity = (direction) => {
+    const quantityOptions = getPriceOptions().map(option => option.quantity);
+
+    setFormData(prev => {
+      const currentIndex = quantityOptions.indexOf(prev.quantity);
+      const safeIndex = currentIndex === -1 ? 0 : currentIndex;
+      const nextIndex = Math.min(
+        Math.max(safeIndex + direction, 0),
+        quantityOptions.length - 1
+      );
+
+      return {
+        ...prev,
+        quantity: quantityOptions[nextIndex]
+      };
+    });
   };
 
   if (showSuccess) {
@@ -256,7 +321,7 @@ export default function AmenBioLanding() {
         {/* Product Slider Section */}
         <section className="mb-16">
           <h3 className="text-4xl font-bold text-slate-900 mb-10 text-center">المنتجات المميزة</h3>
-          <div className="bg-white rounded-3xl shadow-2xl p-8">
+          <div className="bg-white rounded-3xl shadow-2xl p-8 relative">
             <Slider {...sliderSettings}>
               {products.map((product, index) => (
                 <div key={index} className="px-4">
@@ -319,7 +384,11 @@ export default function AmenBioLanding() {
                       {/* Order Button */}
                       <button
                         onClick={() => {
-                          setFormData(prev => ({...prev, selectedProduct: index}));
+                          setFormData(prev => ({
+                            ...prev,
+                            selectedProduct: index,
+                            quantity: getPriceOptions(products[index])[0].quantity
+                          }));
                           document.getElementById('order-form').scrollIntoView({ behavior: 'smooth' });
                         }}
                         className={`w-full border-4 ${product.borderColor} ${product.textColor} bg-white py-4 rounded-lg font-bold text-lg hover:shadow-lg transition-all transform hover:-translate-y-1`}
@@ -423,10 +492,7 @@ export default function AmenBioLanding() {
                     <div className="flex items-center justify-between bg-white bg-opacity-20 rounded-xl p-2">
                       <button
                         type="button"
-                        onClick={() => setFormData(prev => ({
-                          ...prev,
-                          quantity: Math.min(4, prev.quantity + 1)
-                        }))}
+                        onClick={() => changeQuantity(1)}
                         className="bg-white text-green-600 font-bold w-12 h-12 rounded-lg hover:bg-opacity-90 transition-all"
                       >
                         +
@@ -434,10 +500,7 @@ export default function AmenBioLanding() {
                       <span className="text-3xl font-bold">{formData.quantity}</span>
                       <button
                         type="button"
-                        onClick={() => setFormData(prev => ({ 
-                          ...prev, 
-                          quantity: Math.max(1, prev.quantity - 1) 
-                        }))}
+                        onClick={() => changeQuantity(-1)}
                         className="bg-white text-green-600 font-bold w-12 h-12 rounded-lg hover:bg-opacity-90 transition-all"
                       >
                         -
