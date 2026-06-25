@@ -29,6 +29,18 @@ export default function AmenBioLanding() {
         "جرعة إضافية لتجربة محسنة."
       ],
       image: "/picture/vegah%20extra.png",
+      prices: [
+        { quantity: "علبة واحدة", price: "38 دت" },
+        { quantity: "علبتين", price: "60 دت" },
+        { quantity: "3 علب", price: "85 دت" },
+        { quantity: "4 علب", price: "110 دت" }
+      ],
+      priceOptions: [
+        { quantity: 1, price: 38 },
+        { quantity: 2, price: 60 },
+        { quantity: 3, price: 85 },
+        { quantity: 4, price: 110 }
+      ],
       borderColor: "border-green-600",
       textColor: "text-green-600"
     },
@@ -48,16 +60,16 @@ export default function AmenBioLanding() {
       prices: [
         { quantity: "علبة واحدة", price: "36 دت" },
         { quantity: "علبتين", price: "55 دت" },
-        { quantity: "3 علب", price: "79 دت" },
-        { quantity: "4 علب", price: "97 دت" }
+        { quantity: "3 علب", price: "80 دت" },
+        { quantity: "4 علب + علبة مجانية", price: "105 دت" }
       ],
       priceOptions: [
         { quantity: 1, price: 36 },
         { quantity: 2, price: 55 },
-        { quantity: 3, price: 79 },
-        { quantity: 4, price: 97 }
+        { quantity: 3, price: 80 },
+        { quantity: 4, price: 105 }
       ],
-      image: "/picture/kadagra.png",
+      image: "/picture/kdgra-new.jpg",
       borderColor: "border-green-600",
       textColor: "text-green-600"
     },
@@ -71,19 +83,22 @@ export default function AmenBioLanding() {
         "✅ المساعدة على زيادة الرغبة والإحساس بالراحة",
         "✅ تقليل التعب وتحسين الإحساس بالحيوية",
         "✅ دعم الأداء والثقة أثناء العلاقة",
+        "✅ مناسب للرجال والنساء",
         "💚 بفضل تركيبته العشبية المتوازنة، يمنح إحساسًا تدريجيًا وطبيعيًا بدون مفعول حاد أو مفاجئ.",
         "👨 مناسب للرجال لدعم النشاط والأداء",
         "👩 ويمكن أن يساعد النساء على تحسين المزاج والرغبة والإحساس بالراحة"
       ],
       prices: [
-        { quantity: "علبة واحدة", price: "36 دت" },
-        { quantity: "علبتين", price: "55 دت" },
-        { quantity: "5 علب", price: "104 دت" }
+        { quantity: "علبة واحدة", price: "42 دت" },
+        { quantity: "علبتين", price: "75 دت" },
+        { quantity: "3 علب", price: "112 دت" },
+        { quantity: "4 علب", price: "150 دت" }
       ],
       priceOptions: [
-        { quantity: 1, price: 36 },
-        { quantity: 2, price: 55 },
-        { quantity: 5, price: 104 }
+        { quantity: 1, price: 42 },
+        { quantity: 2, price: 75 },
+        { quantity: 3, price: 112 },
+        { quantity: 4, price: 150 }
       ],
       image: "/picture/macun.png",
       borderColor: "border-green-500",
@@ -106,6 +121,16 @@ export default function AmenBioLanding() {
         "⭐ نسبة رضا مرتفعة عند العديد من المستعملين بفضل توازن التركيبة وسهولة الاستعمال."
       ],
       image: "/picture/styromae.png",
+      prices: [
+        { quantity: "قطعة واحدة", price: "49 دت" },
+        { quantity: "قطعتين", price: "95 دت" },
+        { quantity: "4 قطع", price: "137 دت" }
+      ],
+      priceOptions: [
+        { quantity: 1, price: 49 },
+        { quantity: 2, price: 95 },
+        { quantity: 4, price: 137 }
+      ],
       borderColor: "border-green-600",
       textColor: "text-green-600"
     },
@@ -133,6 +158,16 @@ export default function AmenBioLanding() {
         "💰 الدفع عند الاستلام"
       ],
       image: "/picture/viga.png",
+      prices: [
+        { quantity: "علبة واحدة", price: "66 دت" },
+        { quantity: "علبتين", price: "110 دت" },
+        { quantity: "3 علب", price: "145 دت" }
+      ],
+      priceOptions: [
+        { quantity: 1, price: 66 },
+        { quantity: 2, price: 110 },
+        { quantity: 3, price: 145 }
+      ],
       borderColor: "border-green-600",
       textColor: "text-green-600"
     }
@@ -145,12 +180,19 @@ export default function AmenBioLanding() {
     return (
       <button
         type="button"
-        className={`${className || ''} before:!hidden !flex !items-center !justify-center !w-12 !h-12 md:!w-14 md:!h-14 !rounded-full !bg-green-700 !text-white !shadow-xl hover:!bg-green-800 focus:!outline-none focus:!ring-4 focus:!ring-green-200 !z-30 ${isNext ? '!right-2 md:!-right-7' : '!left-2 md:!-left-7'}`}
-        style={{ ...style }}
+        className={`${className || ''} before:!hidden !flex !items-center !justify-center !w-10 !h-10 sm:!w-12 sm:!h-12 md:!w-14 md:!h-14 !rounded-full !bg-green-700 !text-white !shadow-xl hover:!bg-green-800 focus:!outline-none focus:!ring-4 focus:!ring-green-200 !z-30`}
+        style={{
+          ...style,
+          display: 'flex',
+          top: '50%',
+          transform: 'translateY(-50%)',
+          [isNext ? 'right' : 'left']: '0.5rem',
+          [isNext ? 'left' : 'right']: 'auto'
+        }}
         onClick={onClick}
         aria-label={isNext ? 'Next product' : 'Previous product'}
       >
-        <Icon className="w-7 h-7" strokeWidth={3} />
+        <Icon className="w-6 h-6 md:w-7 md:h-7" strokeWidth={3} />
       </button>
     );
   };
@@ -301,7 +343,7 @@ export default function AmenBioLanding() {
             <img src="/picture/logo.png" alt="Bio Power" className="h-14 w-14 object-cover rounded-lg" />
             <div>
               <h1 className="text-3xl font-bold">Bio Power</h1>
-              <p className="text-sm text-green-300">منتجات صحة الرجل المميزة</p>
+              <p className="text-sm text-green-300">حلول مختارة للأداء والصحة</p>
             </div>
           </div>
         </div>
@@ -311,7 +353,7 @@ export default function AmenBioLanding() {
       <section className="bg-gradient-to-r from-green-600 to-green-700 text-white py-8 px-4">
         <div className="max-w-7xl mx-auto text-center">
           <h2 className="text-4xl md:text-5xl font-bold mb-2">منتجات صحة الرجل المميزة</h2>
-          <p className="text-lg md:text-xl opacity-90">أفضل المنتجات الطبيعية لأداء أقوى وثقة أكثر</p>
+          <p className="text-lg md:text-xl opacity-90">منتجات أصلية • نتيجة تفرق</p>
         </div>
       </section>
 
@@ -321,10 +363,10 @@ export default function AmenBioLanding() {
         {/* Product Slider Section */}
         <section className="mb-16">
           <h3 className="text-4xl font-bold text-slate-900 mb-10 text-center">المنتجات المميزة</h3>
-          <div className="bg-white rounded-3xl shadow-2xl p-8 relative">
+          <div className="bg-white rounded-3xl shadow-2xl px-4 py-8 sm:p-8 relative">
             <Slider {...sliderSettings}>
               {products.map((product, index) => (
-                <div key={index} className="px-4">
+                <div key={index} className="px-8 sm:px-4">
                   <div className="grid md:grid-cols-2 gap-12 items-center">
                     {/* Product Image */}
                     <div className="flex justify-center order-2 md:order-1 gap-4">
